@@ -119,10 +119,12 @@ for image in "${images[@]}"; do
   image_idx=$((image_idx+1))
 done
 
+volumes_json=$(cat "${volumes}")
+
 echo "--- :ecs: Registering new task definition for ${task_family}"
 register_command="aws ecs register-task-definition \
     --family ${task_family} \
-    --volumes ${volumes} \
+    --volumes '$volumes_json' \
     --container-definitions '$container_definitions_json'"
 
 if [[ -n "${task_role_arn}" ]]; then
